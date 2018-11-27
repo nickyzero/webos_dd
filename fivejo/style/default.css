@@ -1,0 +1,10 @@
+/* smarthome default design */
+
+html, body { 
+    padding: 0;
+    margin: 0;
+}
+
+.wrapper { 
+    background-image: url('');
+}
