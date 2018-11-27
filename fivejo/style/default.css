@@ -19,7 +19,7 @@ html, body {
 div.wrapper {
     width: 100%;
     height: 100%;
-    background-image: url('../image/picture_wallpaper3.png');
+    background-image: url('../image/picture_wallpaper0.png');
     background-position: top;
     background-attachment: fixed;
     background-repeat: no-repeat;
@@ -165,17 +165,38 @@ div.btn-search {
     transform: translate(-15%, -50%);
     text-align: center;
     cursor: pointer;
+    padding-left: 20px;
+    padding-right: 7px;
+    background-color: #fff;
 }
 
-div.modal-internet {
-    position: relative;
-    width: 70%;
-    height: 70%;
+/* slide image left, right button */
+div.leftOrRight {
+    position: absolute;
     top: 50%;
     left: 50%;
+    width: 95%;
+    height: 0;
+    display: block;
     transform: translate(-50%, -50%);
-    overflow: scroll;
-    overflow-x: hidden;
-    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.4);
-    display: none;
+}
+
+div.leftOrRight img.left {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 20px;
+    height: auto;
+    transform: translateY(-50%);
+    cursor: pointer;
+}
+
+div.leftOrRight img.right {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    width: 20px;
+    height: auto;
+    transform: translateY(-50%);
+    cursor: pointer;
 }

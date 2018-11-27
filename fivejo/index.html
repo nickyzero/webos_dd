@@ -10,7 +10,6 @@
 		/* 즉시 실행 */ 
 		$(document).ready(function() {
 			realTime();
-			//camOn();
 			realWeather();
 		});
 	</script>
@@ -42,10 +41,12 @@
 				<p class="temp" id="temp">0℃</p>
 			</div>
 		</div>
+	</div>
 
-		<div class="cam">
-			<video id="video" width="100%" height="100%" autoplay></video>
-		</div>
+	<!-- Right, Left 선택 부분 -->
+	<div class="leftOrRight" id="lrbtn">
+		<img src="image/left_arrow.png" class="left" onclick="javascript: wrapper.prev(); return false;">
+		<img src="image/right_arrow.png" class="right" onclick="javascript: wrapper.next(); return false;">
 	</div>
 
 	<!-- 아이콘 메뉴 출력 부분 -->
@@ -65,33 +66,59 @@
 		</div>
 	</div>
 
-	<!-- Modal 창에서 뜨는 홈페이지 레이어 팝업 -->
-	<!--
-	<div class="modal-internet" id="internet">
-		<span>검색창</span>
-		<iframe id="internet-iframe" src="#" width="100%" height="90%" style="position: absolute; left: 0; bottom: 0;"></iframe>
-	</div>
-	-->
-
 	<script>
+		// 사진 슬라이드를 위한 카운트 목적의 idx 변수
+		var idx = 0;
+		const MAX_SLIDE_IMAGE = 4;
+
 		var wrapper = {
 			/* 열기 닫기 함수 */
-			'closeOropen': function() {
-				var time_bar = document.getElementById("timebar");
+			'closeOropen' : function() {
+				var timebar = document.getElementById("timebar");
 				var wrapper = document.getElementById("main");
 				var chk = wrapper.getAttribute("data-chk");
 				var icon = document.getElementById("icon-menu");
+				var lrbtn = document.getElementById("lrbtn");
 
 				if(chk == "false") {
-					time_bar.style.display = "none";
+					timebar.style.display = "none";
 					icon.style.display = "none";
+					lrbtn.style.display = "none";
 					wrapper.setAttribute("data-chk", true);
 
 				}else if(chk == "true") {
-					time_bar.style.display = "block";
+					timebar.style.display = "block";
 					icon.style.display = "block";
+					lrbtn.style.display = "block";
 					wrapper.setAttribute("data-chk", false);
 				}
+			},
+			// 다음 사진 함수
+			'next' : function() {
+				idx++;
+				if(idx > MAX_SLIDE_IMAGE-1) idx = 0;
+				var wrapper = document.getElementById("main");
+				var icon = document.getElementById("icon-menu");
+				var timebar = document.getElementById("timebar");
+				var lrbtn = document.getElementById("lrbtn");
+				timebar.style.display = "block";
+				icon.style.display = "block";
+				lrbtn.style.display = "block";
+				wrapper.style.backgroundImage = "url('image/picture_wallpaper"+ idx +".png')";
+				
+			},
+			// 이전 사진 함수
+			'prev' : function() {
+				idx--;
+				if(idx < 0) idx = MAX_SLIDE_IMAGE-1;
+				var wrapper = document.getElementById("main");
+				var icon = document.getElementById("icon-menu");
+				var timebar = document.getElementById("timebar");
+				var lrbtn = document.getElementById("lrbtn");
+				timebar.style.display = "block";
+				icon.style.display = "block";
+				lrbtn.style.display = "block";
+				wrapper.style.backgroundImage = "url('image/picture_wallpaper"+ idx +".png')";
 			}
 		}
 
@@ -154,7 +181,7 @@
 					// 온도 출력할 때 소수점 이하 버리기
 					temp = Math.floor(temp);
 					
-					// 날씨 DB
+					// 날씨 출력 정보
 					if(weather == "50n" || weather == "50d") icon.setAttribute("src", "image/weather_mist.png"); // 안개
 					else if(weather == "13d" || weather == "13n") icon.setAttribute("src", "image/weather_snow.png"); // 눈
 					else if(weather == "09d" || weather == "09n" || weather == "10d" || weather == "10n") icon.setAttribute("src", "image/weather_rain.png"); // 비
@@ -170,34 +197,27 @@
 			});
 		}
 		
-		/* 웹캠 켜기 함수 */
-		function camOn() {
-			var video = document.getElementById('video');
-			if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-				navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
-				video.src = window.URL.createObjectURL(stream);
-				video.play();
-				});
-			}
-		}
-		
 		/* 모달 함수 */
 		var modal = {
 			'open' : function() {
 				var modal = document.getElementById("modal");
 				var timebar = document.getElementById("timebar");
 				var icon = document.getElementById("icon-menu");
+				var lrbtn = document.getElementById("lrbtn");
 				modal.style.display = "block";
 				timebar.style.display = "none";
 				icon.style.display = "none";
+				lrbtn.style.display = "none";
 			},
 			'close' : function() {
 				var modal = document.getElementById("modal");
 				var timebar = document.getElementById("timebar");
 				var icon = document.getElementById("icon-menu");
+				var lrbtn = document.getElementById("lrbtn");
 				modal.style.display = "none";
 				timebar.style.display = "block";
 				icon.style.display = "block";
+				lrbtn.style.display = "block";
 			}
 		}
 
