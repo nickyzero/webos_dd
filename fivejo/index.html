@@ -7,23 +7,34 @@
 	<script src="lib/jquery/3.3.1/jquery-3.3.1.min.js" charset="utf-8"></script>
 
 	<script>
+		/* 즉시 실행 */ 
 		$(document).ready(function() {
 			realTime();
-		});
+			//camOn();
 
-		var bg_idx;
-		var background = document.getElementById("wrapper");
+			realWeather();
+		});
+		
+		/* wrapper 객체 */
 		var wrapper = {
-			'next': function() {
-				bg_idx = bg_idx + 1;
-				background.style.backgroundImage = "url('picture_wallpaper" + bg_idx + "')";
-			},
-			'prev': function() {
-				bg_idx = bg_idx - 1;
-				background.style.backgroundImage = "url('picture_wallpaper" + bg_idx + "')";
+			/* 열기 닫기 함수 */
+			'closeOropen': function() {
+				var time_bar = document.getElementById("timebar");
+				var wrapper = document.getElementById("main");
+				var chk = wrapper.getAttribute("data-chk");
+
+				if(chk == "false") {
+					time_bar.style.display = "none";
+					wrapper.setAttribute("data-chk", true);
+
+				}else if(chk == "true") {
+					time_bar.style.display = "block";
+					wrapper.setAttribute("data-chk", false);
+				}
 			}
 		}
 
+		/* 시간 불러오기 함수 */
 		function realTime() {
 			var date = new Date();
 			var timeYear = document.getElementById("year");
@@ -63,11 +74,55 @@
 			//1초마다 재귀
 			setTimeout('realTime()', '1000');
 		}
+		
+		/* openweathermap API로 날씨 정보 불러오기 */
+		function realWeather() {
+			$.ajax({
+				type:"GET",
+				dataType:"text",
+				url:"http://api.openweathermap.org/data/2.5/weather?q=Seoul,kr&appid=717d4ed7e1e4172778523d635debea5d",
+				success:function(json){
+					// JSON에서 켈빈 온도로 값을 주기 때문에 kelvin 값만큼 빼주어야 함
+					const kelvin = 273.15;
+
+					var list = $.parseJSON(json);
+					var weather = list.weather[0].icon; // 날씨 불러오기
+					var temp = list.main.temp - kelvin; // 온도 켈빈 공식
+					var icon = document.getElementById("weather");
+
+					// 온도 출력할 때 소수점 이하 버리기
+					temp = Math.floor(temp);
+					
+					// 날씨 DB
+					if(weather == "50n" || weather == "50d") icon.setAttribute("src", "image/weather_mist.png"); // 안개
+					else if(weather == "13d" || weather == "13n") icon.setAttribute("src", "image/weather_snow.png"); // 눈
+					else if(weather == "09d" || weather == "09n" || weather == "10d" || weather == "10n" || weather == "11d" || weather == "11n") icon.setAttribute("src", "image/weather_rain.png"); // 비, 번개
+					else if(weather == "03d" || weather == "03n" || weather == "04d" || weather == "04n") icon.setAttribute("src", "image/weather_cloudy.png"); // 구름 많이 낌
+					else if(weather == "02d" || weather == "02n") icon.setAttribute("src", "image/weather_partly_cloudy.png"); // 구름 조금 낌
+					else if(weather == "01d" || weather == "01n") icon.setAttribute("src", "image/weather_sunny.png"); // 맑음
+					var display_temp = document.getElementById("temp");
+					display_temp.innerHTML = temp + "℃";
+					
+					setTimeout('realWeather()', '3600000');
+				}
+			});
+		}
+		
+		/* 웹캠 켜기 함수 */
+		function camOn() {
+			var video = document.getElementById('video');
+			if(navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+				navigator.mediaDevices.getUserMedia({ video: true }).then(function(stream) {
+				video.src = window.URL.createObjectURL(stream);
+				video.play();
+				});
+			}
+		}
 	</script>
 </head>
 <body>
-	<div class="wrapper">
-		<div class="time">
+	<div class="wrapper" id="main" data-chk="false" onclick="javascript: wrapper.closeOropen();">
+		<div class="time" id="timebar">
 			<div class="year">
 				<span id="year">0</span>
 				<span>.</span>
@@ -88,6 +143,15 @@
 				<img src="image/search_icon.png" class="search-menu-icon">
 				<img src="image/calendar_icon.png" class="calendar-menu-icon">
 			</div>
+
+			<div class="weather">
+				<img src="image/weather_sunny.png" class="weather-icon" id="weather">
+				<p class="temp" id="temp">0℃</p>
+			</div>
+		</div>
+
+		<div class="cam">
+			<video id="video" width="100%" height="100%" autoplay></video>
 		</div>
 	</div>
 </body>
