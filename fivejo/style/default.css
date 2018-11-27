@@ -7,7 +7,7 @@
 }
 
 /* smarthome default design */
-html, body { 
+html, body {
     font-family: "NanumBarunGothic";
     padding: 0;
     margin: 0;
@@ -81,25 +81,88 @@ div.wrapper div.time div.weather > p.temp {
     text-align: center;
 }
 
+div.icon-menu {
+    position: relative;
+    left:0;
+    bottom:0;
+    z-index: 9;
+}
 
-div.wrapper div.time div.icon-menu img.search-menu-icon {
+div.icon-menu img.search-menu-icon {
     position: absolute;
     bottom: 0;
     left: 0;
     background-color: rgb(55, 105, 199);
     width: 40px;
     height: 40px;
-    z-index: 1;
+    z-index: 9;
     padding: 20px;
+    cursor: pointer;
 }
 
-div.wrapper div.time div.icon-menu img.calendar-menu-icon {
+div.icon-menu img.calendar-menu-icon {
     position: absolute;
     bottom: 80px;
     left: 0;
     background-color: rgb(241, 150, 65);
     width: 40px;
     height: 40px;
-    z-index: 1;
+    z-index: 9;
     padding: 20px;
+    cursor: pointer;
+}
+
+div.modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 90%;
+    height: 90%;
+    background-color: #fff;
+    transform: translate(-50%, -50%);
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+    display: none;
+}
+
+div.modal-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none;
+}
+
+/* Modal Style */ 
+img.btn-cancel {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    top: 30px;
+    right: 30px;
+}
+
+/* Search style */
+input[name="search"] {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 15px 25px 15px 25px;
+    font-size: 2rem;
+    letter-spacing: -.1em;
+    color: #000;
+    border-radius: 50px;
+    border: none;
+    width: 40%;
+}
+
+.btn-search {
+    position: absolute;
+    right:29.5%;
+    top: 50.2%;
+    transform: translate(-15%, -50%);
+    text-align: center;
+    cursor: pointer;
 }

@@ -11,24 +11,77 @@
 		$(document).ready(function() {
 			realTime();
 			//camOn();
-
 			realWeather();
 		});
-		
-		/* wrapper 객체 */
+	</script>
+</head>
+<body>
+	<!-- 시작 -->
+	<div class="wrapper" id="main" data-chk="false" onclick="javascript:wrapper.closeOropen(); return false;">
+		<!-- 시간 출력 부분 -->
+		<div class="time" id="timebar">
+			<div class="year">
+				<span id="year">0</span>
+				<span>.</span>
+				<span id="month">0</span>
+				<span>.</span>
+				<span id="date">0</span>
+				<span></span>
+				<span id="day">월요일</span>
+			</div>
+			<span id="hour">0</span>
+			<span>:</span>
+			<span id="minute">0</span>
+			<span>:</span>
+			<span id="seconds">0</span>
+			<span id="ap">AM</span>
+			
+			<!-- 날씨 출력 부분 -->
+			<div class="weather">
+				<img src="image/weather_sunny.png" class="weather-icon" id="weather">
+				<p class="temp" id="temp">0℃</p>
+			</div>
+		</div>
+
+		<div class="cam">
+			<video id="video" width="100%" height="100%" autoplay></video>
+		</div>
+	</div>
+
+	<!-- 아이콘 메뉴 출력 부분 -->
+	<div class="icon-menu" id="icon-menu">
+		<a href="#" onclick="javascript: modal.open(); return false;">
+			<img src="image/search_icon.png" class="search-menu-icon">
+		</a>
+		<img src="image/calendar_icon.png" class="calendar-menu-icon">
+	</div>
+
+	<!-- 검색 Modal 부분 -->
+	<div class="modal-cover" id="modal">
+		<img src="image/w_cancel.png" class="btn-cancel" onclick="javascript: modal.close(); return false;">
+		<input type="text" name="search" placeholder="검색어..." id="search_q">
+		<div class="btn-search" onclick="javascript: search(); return false;">
+			<img src="image/modal_search.png" width="40px" height="auto">
+		</div>
+	</div>
+
+	<script>
 		var wrapper = {
 			/* 열기 닫기 함수 */
 			'closeOropen': function() {
 				var time_bar = document.getElementById("timebar");
 				var wrapper = document.getElementById("main");
 				var chk = wrapper.getAttribute("data-chk");
+				var icon = document.getElementById("icon-menu");
 
 				if(chk == "false") {
 					time_bar.style.display = "none";
+					icon.style.display = "none";
 					wrapper.setAttribute("data-chk", true);
 
 				}else if(chk == "true") {
 					time_bar.style.display = "block";
+					icon.style.display = "block";
 					wrapper.setAttribute("data-chk", false);
 				}
 			}
@@ -119,41 +172,31 @@
 				});
 			}
 		}
+		
+		/* 모달 함수 */
+		var modal = {
+			'open' : function() {
+				var modal = document.getElementById("modal");
+				var timebar = document.getElementById("timebar");
+				var icon = document.getElementById("icon-menu");
+				modal.style.display = "block";
+				timebar.style.display = "none";
+				icon.style.display = "none";
+			},
+			'close' : function() {
+				var modal = document.getElementById("modal");
+				var timebar = document.getElementById("timebar");
+				var icon = document.getElementById("icon-menu");
+				modal.style.display = "none";
+				timebar.style.display = "block";
+				icon.style.display = "block";
+			}
+		}
+
+		function search() {
+			var search_string = document.getElementById("search_q").value;
+			location.href = "https://www.google.co.kr/search?q=" + search_string;
+		}
 	</script>
-</head>
-<body>
-	<div class="wrapper" id="main" data-chk="false" onclick="javascript: wrapper.closeOropen();">
-		<div class="time" id="timebar">
-			<div class="year">
-				<span id="year">0</span>
-				<span>.</span>
-				<span id="month">0</span>
-				<span>.</span>
-				<span id="date">0</span>
-				<span></span>
-				<span id="day">월요일</span>
-			</div>
-			<span id="hour">0</span>
-			<span>:</span>
-			<span id="minute">0</span>
-			<span>:</span>
-			<span id="seconds">0</span>
-			<span id="ap">AM</span>
-
-			<div class="icon-menu">
-				<img src="image/search_icon.png" class="search-menu-icon">
-				<img src="image/calendar_icon.png" class="calendar-menu-icon">
-			</div>
-
-			<div class="weather">
-				<img src="image/weather_sunny.png" class="weather-icon" id="weather">
-				<p class="temp" id="temp">0℃</p>
-			</div>
-		</div>
-
-		<div class="cam">
-			<video id="video" width="100%" height="100%" autoplay></video>
-		</div>
-	</div>
 </body>
 </html>
