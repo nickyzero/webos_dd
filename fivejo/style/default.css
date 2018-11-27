@@ -18,8 +18,8 @@ html, body {
 div.wrapper {
     width: 100%;
     height: 100%;
-    background-image: url('../image/picture_wallpaper0.png');
-    background-position: center;
+    background-image: url('../image/picture_wallpaper3.png');
+    background-position: top;
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
@@ -34,28 +34,51 @@ div.wrapper div.time {
     left: 50%;
     bottom: 0px;
     transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.4);
 }
 
 div.wrapper div.time > span {
     color: inherit;
-    font-size: 8rem;
-    text-shadow: 0px 1px 9px rgba(0, 0, 0, 0.5);
+    font-size: 5rem;
+    text-shadow: 0px 1px 9px rgba(0, 0, 0, 0.3);
 }
 
 div.wrapper div.time > span#ap {
     color: inherit;
-    font-size: 5rem;
+    font-size: 2.5rem;
 }
 
 div.wrapper div.time div.year {
     text-align: center;
     color: inherit;
-    font-size: 3.5rem;
-    text-shadow: 0px 1px 9px rgba(0, 0, 0, 0.5);
+    font-size: 2.6rem;
+    text-shadow: 0px 1px 9px rgba(0, 0, 0, 0.3);
     letter-spacing: -.1em;
 }
 
 div.wrapper div.time div.year > span#day {
-    margin-left: 10px;
+    margin-left: 5px;
+    text-shadow: 0px 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+div.wrapper div.time div.icon-menu img.search-menu-icon {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: rgb(55, 105, 199);
+    width: 40px;
+    height: 40px;
+    z-index: 1;
+    padding: 20px;
+}
+
+div.wrapper div.time div.icon-menu img.calendar-menu-icon {
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+    background-color: rgb(241, 150, 65);
+    width: 40px;
+    height: 40px;
+    z-index: 1;
+    padding: 20px;
 }
