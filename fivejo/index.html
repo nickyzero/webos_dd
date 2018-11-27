@@ -1,26 +1,89 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<!-- smarthome style file -->
-	<link href="css/default.css" rel="stylesheet">
-	<!-- WEB OS javascript -->
+	<meta charset="UTF-8">
+	<link href="style/default.css" rel="stylesheet">
 	<script src="webOSjs-0.1.0/webOS.js" charset="utf-8"></script>
+	<script src="lib/jquery/3.3.1/jquery-3.3.1.min.js" charset="utf-8"></script>
 
+	<script>
+		$(document).ready(function() {
+			realTime();
+		});
+
+		var bg_idx;
+		var background = document.getElementById("wrapper");
+		var wrapper = {
+			'next': function() {
+				bg_idx = bg_idx + 1;
+				background.style.backgroundImage = "url('picture_wallpaper" + bg_idx + "')";
+			},
+			'prev': function() {
+				bg_idx = bg_idx - 1;
+				background.style.backgroundImage = "url('picture_wallpaper" + bg_idx + "')";
+			}
+		}
+
+		function realTime() {
+			var date = new Date();
+			var timeYear = document.getElementById("year");
+			var timeMonth = document.getElementById("month");
+			var timeDate = document.getElementById("date");
+			var timeDay = document.getElementById("day");
+			var timeHour = document.getElementById("hour");
+			var timeMinutes = document.getElementById("minute");
+			var timeSeconds = document.getElementById("seconds");
+			var ap = document.getElementById("ap");
+			
+			var time = new Array(date.getFullYear(), date.getMonth()+1, date.getDate(), date.getDay(), date.getHours(), date.getMinutes(), date.getSeconds());
+			var day = new Array("일요일", "월요일", "화요일", "수요일", "목요일", "금요일", "토요일");
+			
+			/* 타이머 숫자 앞에 0이 없을 경우 0을 추가하여 작동 */
+			for(var i=0; i<time.length; i++) {
+				if(time[i] >= 0 && time[i] < 10) time[i] = '0' + time[i];
+			}
+			
+			/* 오후인지 오전인지 출력 */  
+			if(time[3] >= 0 && time[3] <= 12) ap.innerHTML = "AM";
+			else ap.innerHTML = "PM";
+			
+			/* 요일 출력 */ 
+			for(var i=0; i<time.length; i++) {
+				if(time[3] == i) time[3] = day[i];
+			}
+			
+			timeYear.innerHTML = time[0];
+			timeMonth.innerHTML = time[1];
+			timeDate.innerHTML = time[2];
+			timeDay.innerHTML = time[3];
+			timeHour.innerHTML = time[4];
+			timeMinutes.innerHTML = time[5];
+			timeSeconds.innerHTML = time[6];
+
+			//1초마다 재귀
+			setTimeout('realTime()', '1000');
+		}
+	</script>
 </head>
 <body>
 	<div class="wrapper">
+		<div class="time">
+			<div class="year">
+				<span id="year">0</span>
+				<span>년</span>
+				<span id="month">0</span>
+				<span>월</span>
+				<span id="date">0</span>
+				<span>일</span>
+				<span id="day">월요일</span>
+			</div>
+			<span id="hour">0</span>
+			<span>:</span>
+			<span id="minute">0</span>
+			<span>:</span>
+			<span id="seconds">0</span>
+			<span id="ap">AM</span>
+		</div>
 	</div>
-
-	<script>
-		var wrapper = {
-			'next': function() {
-				var bg_idx = 0;
-				var background = document.getElementById("wrapper");
-				background.style.backgroundImage = "url('picture_wallpaper" + bg_idx + "')";
-				bg_idx = bg_idx + 1;
-			}
-		}
-	</script>
 </body>
 </html>
