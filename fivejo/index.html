@@ -70,6 +70,9 @@
 		<a href="#">
 			<img src="image/mic_icon.png" class="mic-menu-icon">
 		</a>
+		<a href="#">
+			<img src="image/config_icon.png" class="config-menu-icon">
+		</a>
 	</div>
 
 	<!-- 검색 Modal 부분 -->
@@ -264,8 +267,8 @@
 
 				var print = document.getElementById("talk");
 				print.innerHTML = message[random];
-
-				setTimeout('webOSalert.closeTalk()', 5000);
+				
+				setTimeout('webOSalert.closeTalk()', 7000);
 			},
 			'closeTalk' : function() {
 				var talk = document.getElementById("alert");

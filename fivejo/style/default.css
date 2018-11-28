@@ -125,6 +125,18 @@ div.icon-menu img.mic-menu-icon {
     cursor: pointer;
 }
 
+div.icon-menu img.config-menu-icon {
+    position: absolute;
+    bottom: 80px;
+    left: 80px;
+    background-color: rgb(144, 199, 55);
+    width: 40px;
+    height: 40px;
+    z-index: 9;
+    padding: 20px;
+    cursor: pointer;
+}
+
 /* Modal concept style */
 div.modal {
     position: absolute;
