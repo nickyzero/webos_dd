@@ -5,14 +5,13 @@
 	<link href="style/default.css" rel="stylesheet">
 	<script type="text/javascript" src="webOSjs-0.1.0/webOS.js"></script>
 	<script src="lib/jquery/3.3.1/jquery-3.3.1.min.js" charset="utf-8"></script>
-	<script type="text/javascript" src="https://raw.githubusercontent.com/kripken/sql.js/master/js/sql.js"></script> 
-	<script type="text/javascript" src="https://raw.githubusercontent.com/kripken/sql.js/master/js/worker.sql.js"></script> 
 
 	<script>
 		/* 즉시 실행 */ 
 		$(document).ready(function() {
 			realTime();
 			realWeather();
+			webOSalert.alwaysMessage();
 		});
 	</script>
 </head>
@@ -20,8 +19,8 @@
 	<!-- 비서 -->
 	<div class="webOSalert" id="alert">
 		<img src="image/webOS_talk.gif" class="logo">
-		<div class="talk" id="talk">
-			안녕하세요!
+		<div class="talk" id="talk" onload="javascript: webOSalert.alwaysMessage(); return false;">
+			default
 		</div>
 	</div>
 
@@ -70,7 +69,7 @@
 		<a href="#">
 			<img src="image/mic_icon.png" class="mic-menu-icon" onclick="javascript: vStart(); return false;">
 		</a>
-		<a href="#">
+		<a href="#" onclick="javascript: modal.popupOpen(); return false;">
 			<img src="image/config_icon.png" class="config-menu-icon">
 		</a>
 	</div>
@@ -81,6 +80,29 @@
 		<input type="text" name="search" placeholder="검색어..." id="search_q">
 		<div class="btn-search" onclick="javascript: search(); return false;">
 			<img src="image/modal_search.png" width="40px" height="auto">
+		</div>
+	</div>
+
+	<!-- 환경설정 Modal 부분 -->
+	<div class="modal-popup" id="p-modal">
+			<img src="image/w_cancel.png" class="btn-cancel" onclick="javascript: modal.close(); return false;">
+		<div class="config" id="config">
+			<table cellpadding="0">
+				<tr>
+					<td style="background-color: rgb(103, 211, 230);">
+						<img src="image/config_brightning.png" class="config-icon">
+						<p>현재 보고 계시는 디스플레이의 밝기를 조절하실 수 있습니다.</p>
+					</td>
+					<td style="background-color: rgb(163, 98, 236);">
+						<img src="image/config_language.png" class="config-icon">
+						<p>현재의 언어에서 다른 국가의 언어로 변경하여 사용하실 수 있습니다.</p>
+					</td>
+					<td style="background-color: rgb(226, 96, 146);">
+						<img src="image/config_coord.png" class="config-icon">
+						<p>자신의 위치에 맞게 날씨를 변경하여 실시간 기상을 전달받으실 수 있습니다.</p>
+					</td>
+				</tr>
+			</table>
 		</div>
 	</div>
 
@@ -162,7 +184,7 @@
 			}
 			
 			/* 오후인지 오전인지 출력 */  
-			if(time[3] >= 0 && time[3] <= 12) ap.innerHTML = "AM";
+			if(time[4] >= 0 && time[4] < 12) ap.innerHTML = "AM";
 			else ap.innerHTML = "PM";
 			
 			/* 요일 출력 */ 
@@ -230,13 +252,29 @@
 			},
 			'close' : function() {
 				var modal = document.getElementById("modal");
+				var modal_popup = document.getElementById("p-modal");
+				var config = document.getElementById("config");
 				var timebar = document.getElementById("timebar");
 				var icon = document.getElementById("icon-menu");
 				var lrbtn = document.getElementById("lrbtn");
 				modal.style.display = "none";
+				config.style.display = "none";
+				modal_popup.style.display = "none";
 				timebar.style.display = "block";
 				icon.style.display = "block";
 				lrbtn.style.display = "block";
+			},
+			'popupOpen' : function() {
+				var modal = document.getElementById("p-modal");
+				var config = document.getElementById("config");
+				var timebar = document.getElementById("timebar");
+				var icon = document.getElementById("icon-menu");
+				var lrbtn = document.getElementById("lrbtn");
+				modal.style.display = "block";
+				config.style.display = "block";
+				timebar.style.display = "none";
+				icon.style.display = "none";
+				lrbtn.style.display = "none";
 			}
 		}
 
@@ -248,6 +286,7 @@
 		var webOSalert = {
 			'setMessage' : function() {
 				var message = new Array();
+				/* 아직 setMessage 함수는 작동하지 않음 */
 				message.push("안녕하세요! 좋은 아침이에요! 식사는 하셨나요?! 힘찬 하루를 시작하기 위해서는 꼭 간단하게라도 식사를 해주셔야 되요!"); // 오전 7시부터 오후 8시까지
 				message.push("점심시간이에요."); // 낮 12시부터 1시까지
 				message.push("곧 저녁이에요! 야근하면 힘들어요. 너무 자신을 엄격하게 대하지 마세요!"); // 오후 5시부터 6시까지
@@ -255,7 +294,7 @@
 			},
 			'alwaysMessage' : function() {
 				var message = new Array();
-				var random = getRandomInt(0, 6);
+				var random = getRandomInt(0, 10);
 				var talk = document.getElementById("alert");
 				talk.style.display = "block";
 				message.push("와 사진 정말 이쁘네요! 제가 생각하고 말만 할 수 있었더라면 누군지 물어봤을거에요..");
@@ -264,11 +303,15 @@
 				message.push("짹!짹! 어라 저 펭귄맞죠?");
 				message.push("뒤뚱뒤뚱..");
 				message.push("응?");
+				message.push("제가 머리스타일을 정말 잘 아는데요! 추천해드릴까요?!");
+				message.push("제 나이가 몇살 안되지만 머리스타일 하나는 다른 사람 보다는 더 잘아요!");
+				message.push("이 사진을 보니까 제 친구가 보고싶어요!");
+				message.push("우와 이거 사진 누가 찍은건지 알 수 있을까요?!");
 
 				var print = document.getElementById("talk");
 				print.innerHTML = message[random];
 				
-				setTimeout('webOSalert.closeTalk()', 7000);
+				setTimeout('webOSalert.closeTalk()', 10000);
 			},
 			'closeTalk' : function() {
 				var talk = document.getElementById("alert");
@@ -319,8 +362,8 @@
                     console.log("Response Finish!");
                 }
             });
-            
         }
+
         function vStop(){
             var request = webOS.service.request("luna://com.webos.service.ai.voice/", {
                 method:"stop",
@@ -331,6 +374,7 @@
                 }
             });
         }
+
 		function vStart(){
             var request = webOS.service.request("luna://com.webos.service.ai.voice/", {
                 method:"start",

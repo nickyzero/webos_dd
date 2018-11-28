@@ -160,6 +160,51 @@ div.modal-cover {
     display: none;
 }
 
+div.modal-popup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    display: none;
+}
+
+div.modal-popup div.config {
+    position: absolute;
+    width: 50%;
+    height: 30%;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.5);
+    display: none;
+}
+
+div.modal-popup div.config table {
+    width: 100%;
+    height: 100%;
+    border-collapse: collapse;
+}
+
+div.modal-popup div.config table tr td {
+    width: 33%;
+    height: 100%;
+    text-align: center;
+    padding: 35px;
+    vertical-align: top;
+
+}
+
+div.modal-popup div.config div.select-box {
+    margin: 0;
+    width: 50%;
+    height: 50px;
+    background-color: #fff;
+    font-size: 3rem;
+}
+
 /* Modal Style */ 
 img.btn-cancel {
     position: absolute;
@@ -167,6 +212,11 @@ img.btn-cancel {
     height: 100px;
     top: 30px;
     right: 30px;
+}
+
+img.config-icon {
+    width: 100px;
+    height: auto;
 }
 
 /* Search style */
@@ -239,7 +289,7 @@ div.webOSalert {
     background-color: #fff;
     border-radius: 20px;
     padding: 15px;
-    display: block;
+    display: none;
 }
 
 div.webOSalert img.logo {
