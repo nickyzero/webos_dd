@@ -68,7 +68,7 @@
 			<img src="image/calendar_icon.png" class="calendar-menu-icon">
 		</a>
 		<a href="#">
-			<img src="image/mic_icon.png" class="mic-menu-icon">
+			<img src="image/mic_icon.png" class="mic-menu-icon" onclick="javascript: vStart(); return false;">
 		</a>
 		<a href="#">
 			<img src="image/config_icon.png" class="config-menu-icon">
@@ -279,6 +279,82 @@
 		function getRandomInt(min, max) {
   			return Math.floor(Math.random() * (max - min)) + min;
 		}
+
+		var textState;
+        var textResponse;
+
+        function vStart(){
+            var request = webOS.service.request("luna://com.webos.service.ai.voice/", {
+                method:"start",
+                parameters: {"mode":"continuous", "keywordDetect":false},
+
+                onSuccess: function (args) {
+                    console.log("Voice Start!");
+                    vGetstate();
+                    vGetresponse();
+                },
+
+                onFailure: function(inError){
+                    console.log("Error!!");
+                    vStop();
+                },
+
+                onComplete: function(inResponse) {
+                    console.log("Voice Finish!");
+                    vStop();
+                },
+
+            });
+        }
+
+        function vGetstate(){
+            var request = webOS.service.request("luna://com.webos.service.ai.voice/", {
+                mathod:"getState",
+                parameters: {"subscribe":false},
+
+                onSuccess: function (args){
+                    console.log("state : ",args.state);
+                    textState = args.state;
+                },
+                onFailure: function(inError){
+                    console.log("Error!!");
+                },
+                onComplete: function(inResponse){
+                    console.log("GetState Finish!");
+
+                }
+            });
+
+        }
+
+        function vGetresponse(){
+            var request = webOS.service.request("luna://com.webos.service.ai.voice/", {
+                method:"getResponse",
+                parameters: {"subscribe":true},
+
+                onSuccess: function (args){
+                    console.log("Response : ",args.response);
+                    textResponse = args.response;
+                },
+                onFailure: function(inError){
+                    console.log("Error!!");
+                },
+                onComplete: function(inResponse){
+                    console.log("Response Finish!");
+                }
+            });
+            
+        }
+        function vStop(){
+            var request = webOS.service.request("luna://com.webos.service.ai.voice/", {
+                method:"stop",
+                parameters: {},
+
+                onSuccess: function (args){
+                    console.log("Stop!");
+                }
+            });
+        }
 	</script>
 </body>
 </html>
