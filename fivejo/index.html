@@ -283,30 +283,6 @@
 		var textState;
         var textResponse;
 
-        function vStart(){
-            var request = webOS.service.request("luna://com.webos.service.ai.voice/", {
-                method:"start",
-                parameters: {"mode":"continuous", "keywordDetect":false},
-
-                onSuccess: function (args) {
-                    console.log("Voice Start!");
-                    vGetstate();
-                    vGetresponse();
-                },
-
-                onFailure: function(inError){
-                    console.log("Error!!");
-                    vStop();
-                },
-
-                onComplete: function(inResponse) {
-                    console.log("Voice Finish!");
-                    vStop();
-                },
-
-            });
-        }
-
         function vGetstate(){
             var request = webOS.service.request("luna://com.webos.service.ai.voice/", {
                 mathod:"getState",
@@ -353,6 +329,29 @@
                 onSuccess: function (args){
                     console.log("Stop!");
                 }
+            });
+        }
+		function vStart(){
+            var request = webOS.service.request("luna://com.webos.service.ai.voice/", {
+                method:"start",
+                parameters: {"mode":"continuous", "keywordDetect":false},
+
+                onSuccess: function (args) {
+                    console.log("Voice Start!");
+                    vGetstate();
+                    vGetresponse();
+                },
+
+                onFailure: function(inError){
+                    console.log("Error!!");
+                    vStop();
+                },
+
+                onComplete: function(inResponse) {
+                    console.log("Voice Finish!");
+                    vStop();
+                },
+
             });
         }
 	</script>
