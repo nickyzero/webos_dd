@@ -24,6 +24,7 @@ div.wrapper {
     background-attachment: fixed;
     background-repeat: no-repeat;
     background-size: cover;
+    transition: .5s;
 }
 
 div.wrapper div.time {
@@ -112,6 +113,19 @@ div.icon-menu img.calendar-menu-icon {
     cursor: pointer;
 }
 
+div.icon-menu img.mic-menu-icon {
+    position: absolute;
+    bottom: 0px;
+    left: 80px;
+    background-color: rgb(241, 65, 153);
+    width: 40px;
+    height: 40px;
+    z-index: 9;
+    padding: 20px;
+    cursor: pointer;
+}
+
+/* Modal concept style */
 div.modal {
     position: absolute;
     top: 50%;
@@ -189,6 +203,7 @@ div.leftOrRight img.left {
     height: auto;
     transform: translateY(-50%);
     cursor: pointer;
+    padding: 30px 30px 30px 0px;
 }
 
 div.leftOrRight img.right {
@@ -199,4 +214,32 @@ div.leftOrRight img.right {
     height: auto;
     transform: translateY(-50%);
     cursor: pointer;
+    padding: 30px 0px 30px 30px;
+}
+
+/* webOS alert style */
+div.webOSalert {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 20%;
+    height: auto;
+    background-color: #fff;
+    border-radius: 20px;
+    padding: 15px;
+    display: block;
+}
+
+div.webOSalert img.logo {
+    width: 70px;
+    height: auto;
+}
+
+div.webOSalert div.talk {
+    position: absolute;
+    top: 15px;
+    left: 95px;
+    width: 69%;
+    height: auto;
+    letter-spacing: -.05em;
 }

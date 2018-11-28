@@ -5,6 +5,8 @@
 	<link href="style/default.css" rel="stylesheet">
 	<script src="webOSjs-0.1.0/webOS.js" charset="utf-8"></script>
 	<script src="lib/jquery/3.3.1/jquery-3.3.1.min.js" charset="utf-8"></script>
+	<script type="text/javascript" src="https://raw.githubusercontent.com/kripken/sql.js/master/js/sql.js"></script> 
+	<script type="text/javascript" src="https://raw.githubusercontent.com/kripken/sql.js/master/js/worker.sql.js"></script> 
 
 	<script>
 		/* 즉시 실행 */ 
@@ -15,6 +17,14 @@
 	</script>
 </head>
 <body>
+	<!-- 비서 -->
+	<div class="webOSalert" id="alert">
+		<img src="image/webOS_talk.gif" class="logo">
+		<div class="talk" id="talk">
+			안녕하세요!
+		</div>
+	</div>
+
 	<!-- 시작 -->
 	<div class="wrapper" id="main" data-chk="false" onclick="javascript:wrapper.closeOropen(); return false;">
 		<!-- 시간 출력 부분 -->
@@ -54,7 +64,12 @@
 		<a href="#" onclick="javascript: modal.open(); return false;">
 			<img src="image/search_icon.png" class="search-menu-icon">
 		</a>
-		<img src="image/calendar_icon.png" class="calendar-menu-icon">
+		<a href="#">
+			<img src="image/calendar_icon.png" class="calendar-menu-icon">
+		</a>
+		<a href="#">
+			<img src="image/mic_icon.png" class="mic-menu-icon">
+		</a>
 	</div>
 
 	<!-- 검색 Modal 부분 -->
@@ -105,7 +120,7 @@
 				icon.style.display = "block";
 				lrbtn.style.display = "block";
 				wrapper.style.backgroundImage = "url('image/picture_wallpaper"+ idx +".png')";
-				
+				webOSalert.alwaysMessage();
 			},
 			// 이전 사진 함수
 			'prev' : function() {
@@ -119,6 +134,7 @@
 				icon.style.display = "block";
 				lrbtn.style.display = "block";
 				wrapper.style.backgroundImage = "url('image/picture_wallpaper"+ idx +".png')";
+				webOSalert.alwaysMessage();
 			}
 		}
 
@@ -224,6 +240,41 @@
 		function search() {
 			var search_string = document.getElementById("search_q").value;
 			window.open("https://www.google.co.kr/search?q=" + search_string, "_blank");
+		}
+
+		var webOSalert = {
+			'setMessage' : function() {
+				var message = new Array();
+				message.push("안녕하세요! 좋은 아침이에요! 식사는 하셨나요?! 힘찬 하루를 시작하기 위해서는 꼭 간단하게라도 식사를 해주셔야 되요!"); // 오전 7시부터 오후 8시까지
+				message.push("점심시간이에요."); // 낮 12시부터 1시까지
+				message.push("곧 저녁이에요! 야근하면 힘들어요. 너무 자신을 엄격하게 대하지 마세요!"); // 오후 5시부터 6시까지
+				message.push("기다리고 기다리던 저녁이에요! 오늘 하루도 고생많으셨어요!"); // 오후 6시부터 7시까지
+			},
+			'alwaysMessage' : function() {
+				var message = new Array();
+				var random = getRandomInt(0, 6);
+				var talk = document.getElementById("alert");
+				talk.style.display = "block";
+				message.push("와 사진 정말 이쁘네요! 제가 생각하고 말만 할 수 있었더라면 누군지 물어봤을거에요..");
+				message.push("오늘도 힘찬 하루를 보냈으면 좋겠어요! 누구든 힘든 하루가 있기 마련이니까 오늘 하루가 힘들었더라도 포기하지 마세요!");
+				message.push("아 심심해... 제가 말하고 생각하고 들을 수 있었다면... 여기서 이러고 있지 않겠죠?...");
+				message.push("짹!짹! 어라 저 펭귄맞죠?");
+				message.push("뒤뚱뒤뚱..");
+				message.push("응?");
+
+				var print = document.getElementById("talk");
+				print.innerHTML = message[random];
+
+				setTimeout('webOSalert.closeTalk()', 5000);
+			},
+			'closeTalk' : function() {
+				var talk = document.getElementById("alert");
+				talk.style.display = "none";
+			}
+		}
+
+		function getRandomInt(min, max) {
+  			return Math.floor(Math.random() * (max - min)) + min;
 		}
 	</script>
 </body>
